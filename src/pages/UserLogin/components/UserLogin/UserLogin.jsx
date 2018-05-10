@@ -13,8 +13,7 @@ import axios from 'axios';
 const { Row, Col } = Grid;
 
 // 寻找背景图片可以从 https://unsplash.com/ 寻找
-const backgroundImage =
-  'https://img.alicdn.com/tfs/TB1zsNhXTtYBeNjy1XdXXXXyVXa-2252-1500.png';
+const backgroundImage =require('../../../../image/login.jpg');
 
 export default class UserLogin extends Component {
   static displayName = 'UserLogin';
@@ -63,7 +62,7 @@ export default class UserLogin extends Component {
       }).catch(function (error) {
         console.log(error);
         Feedback.toast.error('操作失败');
-      });;
+      });
     });
   };
 
@@ -112,7 +111,7 @@ export default class UserLogin extends Component {
                       style={styles.inputIcon}
                     />
                     <IceFormBinder name="password" required message="必填">
-                      <Input htmlType="password" placeholder="密码" />
+                      <Input htmlType="password" placeholder="密码" onPressEnter={this.handleSubmit} />
                     </IceFormBinder>
                   </Col>
                   <Col>

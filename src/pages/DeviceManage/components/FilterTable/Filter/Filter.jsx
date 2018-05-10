@@ -21,13 +21,13 @@ export default class Filter extends Component {
       >
         <div>
           <Row wrap>
-            <Col xxs={24} xs={12} l={8} style={styles.filterCol}>
+            <Col xxs={24} xs={12} l={6} style={styles.filterCol}>
               <label style={styles.filterTitle}>标识</label>
               <IceFormBinder>
                 <Input style={styles.filterItem} name="gatewayId" />
               </IceFormBinder>
             </Col>
-            <Col xxs={24} xs={12} l={8} style={styles.filterCol}>
+            <Col xxs={24} xs={12} l={6} style={styles.filterCol}>
               <label style={styles.filterTitle}>状态</label>
               <IceFormBinder>
                 <Select style={styles.filterItem} name="status">
@@ -38,16 +38,13 @@ export default class Filter extends Component {
                 </Select>
               </IceFormBinder>
             </Col>
-            <Col xxs={24} xs={12} l={8} style={styles.filterCol}>
+            <Col xxs={24} xs={12} l={6} style={styles.filterCol}>
             <div
               style={{
                 textAlign: 'left',
                 marginLeft: '12px',
               }}
             >
-              <Button onClick={this.props.onReset} type="normal">
-                重置
-              </Button>
               <Button
                 onClick={this.props.onSubmit}
                 type="primary"

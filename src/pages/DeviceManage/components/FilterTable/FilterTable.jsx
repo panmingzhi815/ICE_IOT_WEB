@@ -1,17 +1,18 @@
 /* eslint no-underscore-dangle: 0 */
 import React, { Component } from 'react';
-import { Table, Pagination } from '@icedesign/base';
+import { Table, Pagination ,Button,Icon,Dialog,Feedback} from '@icedesign/base';
+import { Link } from 'react-router-dom';
+import FoundationSymbol from 'foundation-symbol';
 import IceContainer from '@icedesign/container';
 import DataBinder from '@icedesign/data-binder';
 import IceLabel from '@icedesign/label';
 import FilterForm from './Filter';
-
+import axios from 'axios';
 @DataBinder({
   tableData: {
     // 详细请求配置请参见 https://github.com/axios/axios
     url: '/device',
-    method:'post',
-    data: {
+    params: {
       pageNo: 0,
       pageSize:20
     },
@@ -31,8 +32,8 @@ import FilterForm from './Filter';
     },
     defaultBindingData: {
       list: [],
-      total: 100,
-      pageSize: 10,
+      total: 0,
+      pageSize: 20,
       currentPage: 1,
     },
   },
@@ -49,53 +50,59 @@ export default class EnhanceTable extends Component {
     this.queryCache = {};
     this.state = {
       filterFormValue: {},
+      search:false
     };
   }
 
-  componentDidMount() {
-    this.queryCache.page = 1;
+  componentWillMount = () =>{
+    console.log("load data first")
+    this.queryCache = {};
     this.fetchData();
   }
 
   fetchData = () => {
     this.props.updateBindingData('tableData', {
-      data: this.queryCache,
+      params: this.queryCache,
     });
   };
 
-  renderTitle = (value, index, record) => {
-    return (
-      <div style={styles.titleWrapper}>
-        <span style={styles.title}>{record.title}</span>
-      </div>
-    );
+  showLog(type,value){
+    this.props.showLog(type,value);
+  }
+
+  confirmDelete(value) {
+    const that = this;
+    Dialog.confirm({
+      title:"提示",
+      content: "您确定要删除这个设备吗？",
+      locale: {
+        ok: "确认",
+        cancel: "取消"
+      },
+      onOk:function(){
+        axios.delete('/device?deviceId=' + value).then((response) => {
+          console.log(response);
+          if(response.data['result']['errorCode'] != undefined){
+            Feedback.toast.error(response.data['errorMsg']);
+            Feedback.toast.error('操作失败');
+          }else{
+            Feedback.toast.success('删除成功');
+            that.fetchData();
+          }
+        }).catch(function (error) {
+          console.log(error);
+          Feedback.toast.error('操作失败');
+        });
+      }
+    });
   };
 
-  editItem = (record, e) => {
-    e.preventDefault();
-    // TODO: record 为该行所对应的数据，可自定义操作行为
-  };
-
-  renderOperations = (value, index, record) => {
+  renderOperations = (value) => {
     return (
-      <div
-        className="filter-table-operation"
-        style={styles.filterTableOperation}
-      >
-        <a
-          href="#"
-          style={styles.operationItem}
-          target="_blank"
-          onClick={this.editItem.bind(this, record)}
-        >
-          解决
-        </a>
-        <a href="#" style={styles.operationItem} target="_blank">
-          详情
-        </a>
-        <a href="#" style={styles.operationItem} target="_blank">
-          分类
-        </a>
+      <div>
+        <Button type="primary" onClick={this.showLog.bind(this,'log',value)} >日志</Button>
+        &nbsp;
+        <Button type="normal" shape="warning" onClick={this.confirmDelete.bind(this,value)} >删除</Button>
       </div>
     );
   };
@@ -138,6 +145,13 @@ export default class EnhanceTable extends Component {
     });
   };
 
+  onShowSearch(){
+    console.log('onShowSearch:' + this.state.search);
+    this.setState({
+      search:!this.state.search
+    });
+  }
+
   render() {
     const tableData = this.props.bindingData.tableData;
     const { filterFormValue } = this.state;
@@ -145,13 +159,27 @@ export default class EnhanceTable extends Component {
     return (
       <div className="filter-table">
         <IceContainer>
-          <FilterForm
-            value={filterFormValue}
-            onChange={this.filterFormChange}
-            onSubmit={this.filterTable}
-            onReset={this.resetFilter}
-          />
+          <div>
+          <Button type="primary" onClick={this.showLog.bind(this,'add','')}>
+            <Icon type="add" />添加
+          </Button>
+          &nbsp;
+          <Button type="primary" onClick={this.onShowSearch.bind(this)}>
+            <Icon type="search" />搜索
+          </Button>
+          </div>
         </IceContainer>
+        
+        {this.state.search && (
+              <IceContainer>
+                <FilterForm
+                  value={filterFormValue}
+                  onChange={this.filterFormChange}
+                  onSubmit={this.filterTable}
+                  onReset={this.resetFilter}
+                />
+              </IceContainer>
+            )}
         <IceContainer title="设备列表">
           <Table
             dataSource={tableData.list}
@@ -165,6 +193,7 @@ export default class EnhanceTable extends Component {
             <Table.Column title="类型" dataIndex="deviceInfo.deviceType" width={85} />
             <Table.Column title="位置" dataIndex="deviceInfo.location" width={85} />
             <Table.Column title="状态" dataIndex="deviceInfo.status" cell={this.renderStatus} width={85} />
+            <Table.Column title="操作" dataIndex="deviceId" cell={this.renderOperations} width={85} />
           </Table>
           <div style={styles.paginationWrapper}>
             <Pagination

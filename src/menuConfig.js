@@ -9,16 +9,12 @@ const asideMenuConfig = [
     name: '首页',
     path: '/',
     icon: 'home',
-  },{
-    name: '设备管理',
-    path: '/DeviceManage',
-    icon: 'home',
   },
   {
-    name: '设备日志',
-    path: '/DeviceDataLog',
-    icon: 'home',
-  }
+    name: '设备管理',
+    path: '/DeviceManage',
+    icon: 'requ',
+  },
 ];
 
 export { headerMenuConfig, asideMenuConfig };

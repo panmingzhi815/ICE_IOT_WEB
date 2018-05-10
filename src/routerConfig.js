@@ -5,8 +5,6 @@
 import HeaderAsideFooterLayout from './layouts/HeaderAsideFooterLayout';
 import UserLogin from './pages/UserLogin';
 import BlankLayout from './layouts/BlankLayout';
-import DeviceDataLog from './pages/DeviceDataLog';
-
 import Dashboard from './pages/Dashboard';
 import DeviceManage from './pages/DeviceManage';
 
@@ -20,11 +18,6 @@ const routerConfig = [
     path: '/DeviceManage',
     layout: HeaderAsideFooterLayout,
     component: DeviceManage,
-  },
-  {
-    path: '/DeviceDataLog',
-    layout: HeaderAsideFooterLayout,
-    component: DeviceDataLog,
   },
   {
     path: '/',
