@@ -175,6 +175,14 @@ export default class DeviceForm extends Component {
               >
                 提 交
               </Button>
+              &nbsp;
+              <Button
+                size="large"
+                type="normal" shape="warning"
+                onClick={this.showLog.bind(this,'list','')}
+              >
+                取 消
+              </Button>
             </Col>
           </Row>
         </IceContainer>

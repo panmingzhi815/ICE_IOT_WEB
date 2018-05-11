@@ -120,14 +120,6 @@ export default class UserLogin extends Component {
                 </Row>
 
                 <Row style={styles.formItem}>
-                  <Col>
-                    <IceFormBinder name="checkbox">
-                      <Checkbox style={styles.checkbox}>记住账号</Checkbox>
-                    </IceFormBinder>
-                  </Col>
-                </Row>
-
-                <Row style={styles.formItem}>
                   <Button
                     type="primary"
                     onClick={this.handleSubmit}

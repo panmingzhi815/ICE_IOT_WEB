@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Grid, Select, Button, DatePicker } from '@icedesign/base';
+import { Input, Grid, Select, Button, Icon } from '@icedesign/base';
 
 // form binder 详细用法请参见官方文档
 import {
@@ -21,13 +21,11 @@ export default class Filter extends Component {
       >
         <div>
           <Row wrap>
-            <Col xxs={24} xs={12} l={6} style={styles.filterCol}>
+            <Col style={styles.filterCol}>
               <label style={styles.filterTitle}>标识</label>
               <IceFormBinder>
                 <Input style={styles.filterItem} name="gatewayId" />
               </IceFormBinder>
-            </Col>
-            <Col xxs={24} xs={12} l={6} style={styles.filterCol}>
               <label style={styles.filterTitle}>状态</label>
               <IceFormBinder>
                 <Select style={styles.filterItem} name="status">
@@ -37,8 +35,6 @@ export default class Filter extends Component {
                     <Select.Option value="ABNORMAL">异常</Select.Option>
                 </Select>
               </IceFormBinder>
-            </Col>
-            <Col xxs={24} xs={12} l={6} style={styles.filterCol}>
             <div
               style={{
                 textAlign: 'left',
@@ -50,7 +46,7 @@ export default class Filter extends Component {
                 type="primary"
                 style={{ marginLeft: '10px' }}
               >
-                确定
+               <Icon type="search" /> 搜索
               </Button>
             </div>
             </Col>
@@ -68,16 +64,12 @@ const styles = {
   },
 
   filterItem:{
-    width:"200px"
+    width:"200px",
+    margin:'0 15px 0 15px'
   },
 
   filterTitle: {
     textAlign: 'left',
-    marginRight: '12px',
     fontSize: '14px',
-  },
-
-  filterTool: {
-    width: '200px',
-  },
+  }
 };

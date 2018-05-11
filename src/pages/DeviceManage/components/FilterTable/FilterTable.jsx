@@ -58,6 +58,16 @@ export default class EnhanceTable extends Component {
     console.log("load data first")
     this.queryCache = {};
     this.fetchData();
+    this.timer = setInterval(() => {
+        console.log('自动刷新设备列表');
+        this.fetchData();
+      },
+      5000
+    );
+  }
+
+  componentWillUnmount=() =>{
+    this.timer && clearTimeout(this.timer);
   }
 
   fetchData = () => {
@@ -152,6 +162,10 @@ export default class EnhanceTable extends Component {
     });
   }
 
+  refreshDevice(){
+    this.fetchData();
+  }
+
   render() {
     const tableData = this.props.bindingData.tableData;
     const { filterFormValue } = this.state;
@@ -166,6 +180,10 @@ export default class EnhanceTable extends Component {
           &nbsp;
           <Button type="primary" onClick={this.onShowSearch.bind(this)}>
             <Icon type="search" />搜索
+          </Button>
+          &nbsp;
+          <Button type="primary" onClick={this.refreshDevice.bind(this)}>
+            <Icon type="refresh" />刷新
           </Button>
           </div>
         </IceContainer>
@@ -183,7 +201,6 @@ export default class EnhanceTable extends Component {
         <IceContainer title="设备列表">
           <Table
             dataSource={tableData.list}
-            isLoading={tableData.__loading}
             className="basic-table"
             style={styles.basicTable}
             hasBorder={false}
@@ -191,7 +208,9 @@ export default class EnhanceTable extends Component {
             <Table.Column title="标识" dataIndex='gatewayId' width={150}/>
             <Table.Column title="名称" dataIndex="deviceInfo.name" width={85} />
             <Table.Column title="类型" dataIndex="deviceInfo.deviceType" width={85} />
-            <Table.Column title="位置" dataIndex="deviceInfo.location" width={85} />
+            <Table.Column title="电量" dataIndex="deviceInfo.batteryLevel" width={50} />
+            <Table.Column title="信号" dataIndex="deviceInfo.signalStrength" width={50} />
+            <Table.Column title="锁" dataIndex="deviceInfo.statusDetail" width={50} />
             <Table.Column title="状态" dataIndex="deviceInfo.status" cell={this.renderStatus} width={85} />
             <Table.Column title="操作" dataIndex="deviceId" cell={this.renderOperations} width={85} />
           </Table>

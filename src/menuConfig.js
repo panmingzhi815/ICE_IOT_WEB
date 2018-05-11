@@ -14,7 +14,7 @@ const asideMenuConfig = [
     name: '设备管理',
     path: '/DeviceManage',
     icon: 'requ',
-  },
+  }
 ];
 
 export { headerMenuConfig, asideMenuConfig };

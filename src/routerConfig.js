@@ -6,6 +6,7 @@ import HeaderAsideFooterLayout from './layouts/HeaderAsideFooterLayout';
 import UserLogin from './pages/UserLogin';
 import BlankLayout from './layouts/BlankLayout';
 import Dashboard from './pages/Dashboard';
+import HeaderAsideFooterResponsiveLayout from './layouts/HeaderAsideFooterResponsiveLayout';
 import DeviceManage from './pages/DeviceManage';
 
 const routerConfig = [
@@ -16,14 +17,14 @@ const routerConfig = [
   },
   {
     path: '/DeviceManage',
-    layout: HeaderAsideFooterLayout,
+    layout: HeaderAsideFooterResponsiveLayout,
     component: DeviceManage,
   },
   {
     path: '/',
-    layout: HeaderAsideFooterLayout,
+    layout: HeaderAsideFooterResponsiveLayout,
     component: Dashboard,
-  },
+  }
 ];
 
 export default routerConfig;
