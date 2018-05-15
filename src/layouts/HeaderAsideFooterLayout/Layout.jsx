@@ -34,16 +34,15 @@ export default class HeaderAsideFooterLayout extends Component {
 
   componentDidMount() {
     const history = this.props.history;
-      axios.get('/session',{}).then((response) => {
-        console.log(response);
-        if(response.data != true){
-          history.push("/UserLogin");
-        }
-      }).catch(function (error) {
-        console.log(error);
+    axios.get('/session',{}).then((response) => {
+      console.log(response);
+      if(response.data != true){
         history.push("/UserLogin");
-      });;
-
+      }
+    }).catch(function (error) {
+      console.log(error);
+      history.push("/UserLogin");
+    });
     this.enquireScreenRegister();
   }
 

@@ -7,6 +7,7 @@ import IceContainer from '@icedesign/container';
 import DataBinder from '@icedesign/data-binder';
 import IceLabel from '@icedesign/label';
 import FilterForm from './Filter';
+import AddPassword from './../AddPassword';
 import axios from 'axios';
 @DataBinder({
   tableData: {
@@ -50,7 +51,9 @@ export default class EnhanceTable extends Component {
     this.queryCache = {};
     this.state = {
       filterFormValue: {},
-      search:false
+      search:false,
+      AddPasswordVisiable:false,
+      addPasswordDeviceId:''
     };
   }
 
@@ -107,12 +110,22 @@ export default class EnhanceTable extends Component {
     });
   };
 
+  showPasswordDialog(visible,deviceId){
+    this.setState({AddPasswordVisiable:visible,selectDeviceId:deviceId})
+  }
+
+  showCardDialog(visible,deviceId){
+    this.setState({AddCardVisiable:visible,selectDeviceId:deviceId})
+  }
+
   renderOperations = (value) => {
     return (
       <div>
         <Button type="primary" onClick={this.showLog.bind(this,'log',value)} >日志</Button>
         &nbsp;
         <Button type="normal" shape="warning" onClick={this.confirmDelete.bind(this,value)} >删除</Button>
+        &nbsp;
+        <Button type="normal" onClick={this.showPasswordDialog.bind(this,true,value)} >卡密码</Button>
       </div>
     );
   };
@@ -212,7 +225,7 @@ export default class EnhanceTable extends Component {
             <Table.Column title="信号" dataIndex="deviceInfo.signalStrength" width={50} />
             <Table.Column title="锁" dataIndex="deviceInfo.statusDetail" width={50} />
             <Table.Column title="状态" dataIndex="deviceInfo.status" cell={this.renderStatus} width={85} />
-            <Table.Column title="操作" dataIndex="deviceId" cell={this.renderOperations} width={85} />
+            <Table.Column title="操作" dataIndex="deviceId" cell={this.renderOperations} width={150} />
           </Table>
           <div style={styles.paginationWrapper}>
             <Pagination
@@ -223,6 +236,7 @@ export default class EnhanceTable extends Component {
             />
           </div>
         </IceContainer>
+        {this.state.AddPasswordVisiable && <AddPassword showPasswordDialog={this.showPasswordDialog.bind(this)} deviceId = {this.state.selectDeviceId}/>}
       </div>
     );
   }

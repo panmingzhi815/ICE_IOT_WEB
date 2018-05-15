@@ -1,3 +1,4 @@
 import Layout from './Layout';
+import {withRouter} from "react-router-dom";
 
-export default Layout;
+export default withRouter(Layout);

@@ -14,6 +14,7 @@ import Logo from './../../components/Logo';
 import { asideMenuConfig } from './../../menuConfig';
 import './scss/light.scss';
 import './scss/dark.scss';
+import axios from 'axios';
 
 // 设置默认的皮肤配置，支持 dark 和 light 两套皮肤配置
 const theme = typeof THEME === 'undefined' ? 'dark' : THEME;
@@ -38,6 +39,16 @@ export default class HeaderAsideFooterResponsiveLayout extends Component {
   }
 
   componentDidMount() {
+    const history = this.props.history;
+    axios.get('/session',{}).then((response) => {
+      console.log(response);
+      if(response.data != true){
+        history.push("/UserLogin");
+      }
+    }).catch(function (error) {
+      console.log(error);
+      history.push("/UserLogin");
+    });
     this.enquireScreenRegister();
   }
 

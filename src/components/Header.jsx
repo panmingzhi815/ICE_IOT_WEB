@@ -8,6 +8,7 @@ import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import { headerMenuConfig } from './../menuConfig';
 import Logo from './Logo';
+import axios from 'axios';
 
 export default class Header extends PureComponent {
   render() {

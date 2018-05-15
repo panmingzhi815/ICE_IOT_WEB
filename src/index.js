@@ -4,8 +4,10 @@ import '@icedesign/base/reset.scss';
 import router from './router';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://192.168.2.66:8080';
+// axios.defaults.baseURL = 'http://127.0.0.1:8080';
+axios.defaults.baseURL = 'http://119.23.45.198:8080';
 axios.defaults.withCredentials = true
+axios.defaults.timeout =  3000;
 
 const ICE_CONTAINER = document.getElementById('ice-container');
 
